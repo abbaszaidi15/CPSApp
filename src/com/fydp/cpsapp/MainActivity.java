@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
  
-        ParkingDbHelper Db = new ParkingDbHelper(this);
+        //ParkingDbHelper Db = new ParkingDbHelper(this);
         outstring = (EditText) findViewById(R.id.editText1);
  
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
