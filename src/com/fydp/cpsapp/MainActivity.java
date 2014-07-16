@@ -258,7 +258,7 @@ public class MainActivity extends Activity {
                 try {
                     db =
                         //ctx.createDatabase(DATABASE_NAME, DATABASE_VERSION, 0,
-                            null);
+                            //null);
                     db.execSQL(DATABASE_CREATE);
                 } catch (FileNotFoundException e1) {
                     db = null;
