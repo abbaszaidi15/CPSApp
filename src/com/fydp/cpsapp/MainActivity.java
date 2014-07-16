@@ -253,11 +253,11 @@ public class MainActivity extends Activity {
 
         public ParkingDbHelper(Context ctx) {
             try {
-                db = ctx.openDatabase(DATABASE_NAME, null);
+                //db = ctx.openDatabase(DATABASE_NAME, null);
             } catch (FileNotFoundException e) {
                 try {
                     db =
-                        ctx.createDatabase(DATABASE_NAME, DATABASE_VERSION, 0,
+                        //ctx.createDatabase(DATABASE_NAME, DATABASE_VERSION, 0,
                             null);
                     db.execSQL(DATABASE_CREATE);
                 } catch (FileNotFoundException e1) {
