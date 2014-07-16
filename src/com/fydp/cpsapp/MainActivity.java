@@ -1,4 +1,3 @@
-//test comment
 package com.fydp.cpsapp;
 
 import java.io.UnsupportedEncodingException;
@@ -34,6 +33,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 //
 
+//Database Classes
+//It is a public class in the same package, do not need to import it here.
+//just call it below.
+//
 public class MainActivity extends Activity {
 	
 	public static final String MIME_TEXT_PLAIN = "text/plain";
@@ -47,7 +50,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
  
+        //-------Start of DB implementation
         //ParkingDbHelper Db = new ParkingDbHelper(this);
+        
+        //-------End of DB implementation
+        
         outstring = (EditText) findViewById(R.id.editText1);
  
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -167,6 +174,10 @@ public class MainActivity extends Activity {
         adapter.disableForegroundDispatch(activity);
     }
     
+    private void initDB(Context context){
+    	CPSDatabase cpsDB = new CPSDatabase(context);
+    	
+    }
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
     	 
         @Override
@@ -229,6 +240,8 @@ public class MainActivity extends Activity {
         }
     }
     
+    
+    /*
     public class ParkingDbHelper {
         class Row extends Object {
             public long _Id;
@@ -338,7 +351,7 @@ public class MainActivity extends Activity {
             }
         }
     }
-    
+    */
 }
 
 
