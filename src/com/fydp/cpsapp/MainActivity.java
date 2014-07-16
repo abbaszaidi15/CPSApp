@@ -52,7 +52,8 @@ public class MainActivity extends Activity {
  
         //-------Start of DB implementation
         //ParkingDbHelper Db = new ParkingDbHelper(this);
-        
+        Context context = getApplicationContext();
+        initDB(context);
         //-------End of DB implementation
         
         outstring = (EditText) findViewById(R.id.editText1);
@@ -175,6 +176,7 @@ public class MainActivity extends Activity {
     }
     
     private void initDB(Context context){
+    	String DB_FULL_PATH = "";
     	CPSDatabase cpsDB = new CPSDatabase(context);
     	
     }
