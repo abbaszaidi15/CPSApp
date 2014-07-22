@@ -92,7 +92,9 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
         
-        //----------- DETECT ZONAL RATE FROM GPS COORDINATES-----------//
+        //----------- DETECT ZONAL RATE FROM GPS COORDINATES---------//
+        double samplelat = 43.49860;
+        double samplelong = -80.5700;
         int column=0;
         int row=0;
         
@@ -113,9 +115,7 @@ public class MainActivity extends Activity {
         	}
         }
         Log.e("CSVtag",list.get(row)[column]);
-      //----------- DETECT ZONAL RATE FROM GPS COORDINATES-----------//
-        
-        
+      //----------- DETECT ZONAL RATE FROM GPS COORDINATES---------//
         
         
         handleIntent(getIntent());
