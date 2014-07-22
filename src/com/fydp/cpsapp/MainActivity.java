@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
         
         //test
         String next[] = {};
-        List<String[]> list = new ArrayList<String[]>();
+        final List<String[]> list = new ArrayList<String[]>();
 
         try {
             CSVReader reader = new CSVReader(new InputStreamReader(getAssets().open("WaterlooGrid.csv")));
@@ -91,8 +91,33 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //
-        Log.e("CSVtag",list.get(0)[0]);
+        
+        //----------- DETECT ZONAL RATE FROM GPS COORDINATES-----------//
+        int column=0;
+        int row=0;
+        
+        int latitude;
+        int longitude;
+        for (longitude=1; longitude <17; longitude++){
+        	if ( (samplelong > Double.parseDouble(list.get(0)[longitude])) && (samplelong < Double.parseDouble(list.get(0)[longitude+1]))){
+        		column = longitude+1;
+        		break;
+        	}
+        }
+        for (latitude=1; latitude <17; latitude++){
+        	if ( (samplelat < Double.parseDouble(list.get(latitude)[0])) && (samplelat > Double.parseDouble(list.get(latitude+1)[0]))){
+        		row = latitude+1;
+        		break;
+        	}
+        	else{
+        	}
+        }
+        Log.e("CSVtag",list.get(row)[column]);
+      //----------- DETECT ZONAL RATE FROM GPS COORDINATES-----------//
+        
+        
+        
+        
         handleIntent(getIntent());
     }
      
