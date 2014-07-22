@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.app.Dialog;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,6 +23,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 //
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
@@ -236,9 +239,20 @@ public class MainActivity extends Activity {
          
         @Override
         protected void onPostExecute(String result) {
-            if (result != null) {
-                outstring.setText("Read content: " + result);
+            if (result != null) {     	
+            	new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Parking Entry")
+                .setMessage("Parking transaction started: " + result)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) { 
+                        // continue with delete
+                    }
+                 })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+                //outstring.setText("Read content: " + result);
             }
+            //send message
         }
     }
     

@@ -10,27 +10,17 @@
 
     <Button
         android:id="@+id/Button02"
-        android:layout_width="150dp"
-        android:layout_height="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/button1"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="71dp"
         android:text="Settings" />
 
     <Button
-        android:id="@+id/button1"
-        android:layout_width="150dp"
-        android:layout_height="70dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="60dp"
-        android:text="View Your Parking History" />
-
-    <Button
         android:id="@+id/Button01"
-        android:layout_width="150dp"
-        android:layout_height="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/button1"
         android:layout_centerVertical="true"
         android:text="Pay Your Bill" />
@@ -45,5 +35,44 @@
 
         <requestFocus />
     </EditText>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/button1"
+        android:layout_marginRight="25dp"
+        android:src="@drawable/parkinglogo" />
+
+
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/Button01"
+        android:layout_alignLeft="@+id/imageView1"
+        android:src="@drawable/googlewallet" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/editText1"
+        android:layout_marginLeft="39dp"
+        android:layout_marginTop="32dp"
+        android:text="View Your Parking History" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView3"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/imageView3"
+        android:layout_marginRight="7dp"
+        android:src="@drawable/gear2" />
 
 </RelativeLayout>
