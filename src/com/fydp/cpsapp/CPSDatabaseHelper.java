@@ -88,7 +88,7 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 	
 	public void addCPSData(CPSData data){
 		//logging
-		Log.d("addData", data.toString());
+//		Log.d("addData", data.toString());
 		
 		//1. get reference to writable db
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -185,6 +185,40 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 	       }
 	 
 	       Log.d("getAllCPSData()", allData.toString());
+	 
+	       // return entire list
+	       return allData;
+	   }
+	
+	public List<CPSData> getAllCPSData(int year){
+		List<CPSData> allData = new LinkedList<CPSData>();
+		
+		 // 1. build the query
+	       String selectQuery = "SELECT  * FROM " + TABLE_PSD + " where timestamp='" + year + "'";
+	 
+	       // 2. get reference to writable DB
+	       SQLiteDatabase db = this.getWritableDatabase();
+	       Cursor cursor = db.rawQuery(selectQuery, null);
+	 
+	       // 3. go over each row, build book and add it to list
+	       CPSData dataEntry = null;
+	       if (cursor.moveToFirst()) {
+	           do {
+	               dataEntry = new CPSData();
+	               dataEntry.setId(Integer.parseInt(cursor.getString(0)));
+		       	   dataEntry.setUserID(cursor.getString(1));
+		       	   dataEntry.setDeviceID(cursor.getString(2));
+		       	   dataEntry.setTapType(cursor.getString(3));
+		       	   dataEntry.setLatitude(cursor.getString(4));
+		       	   dataEntry.setLongitude(cursor.getString(5));
+		       	   dataEntry.setLocation(cursor.getString(5));
+		       	   dataEntry.setZonalReg(cursor.getString(6));
+		       	   dataEntry.setCost(cursor.getString(7));
+		       	   dataEntry.setTimeStamp(cursor.getString(8));
+	               // Add data entry to allData
+	               allData.add(dataEntry);
+	           } while (cursor.moveToNext());
+	       }
 	 
 	       // return entire list
 	       return allData;

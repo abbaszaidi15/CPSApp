@@ -59,4 +59,18 @@ public class ParkingHistory extends Activity {
 		
 		parkingHistory.setAdapter(myAdapter);
 	}
+	
+	public void filterHistory(View view){
+		DatePicker datePicker = (DatePicker) findViewById(R.id.date);
+		int year = datePicker.getYear();
+		
+		CPSDatabaseHelper db = new CPSDatabaseHelper(this.getApplicationContext());
+		Log.i("list",db.getDatabaseName());
+		List<CPSData> cpsDataList = db.getAllCPSData(year);
+		 
+		ArrayAdapter<CPSData> myAdapter = new ArrayAdapter<CPSData>(this, 
+		android.R.layout.simple_list_item_1,cpsDataList);
+		
+		parkingHistory.setAdapter(myAdapter);
+	}
 }
