@@ -137,12 +137,12 @@ public class MainActivity extends Activity {
         Log.e("GPS",String.valueOf(longitude1));
         
         //Sample coordinates in Mississauga
-        //latitude1 = 43.611080;
-        //longitude1 = -79.650621;
+        latitude1 = 43.611080;
+        longitude1 = -79.650621;
         
         //check if location is in Waterloo
         Boolean inWaterloo = getMyLocationAddress(latitude1,longitude1);
-        
+        boolean entryadded;
         //if location is in Waterloo, find zonal rate
         if (inWaterloo){
 	        int column=0;
@@ -164,13 +164,41 @@ public class MainActivity extends Activity {
 	        }
 	        Log.e("Zone",list.get(row)[column]);
 	        
+	        //ADD CODE TO ADD TO DATABASE
+	        
+	        //set successful entry flag
+	        entryadded = true;
     	}
         
         //else log error
         else{
         	Log.e("Address","Not in Waterloo");
-        	//ADD ALERT TO WARN USER THAT THEY ARE NOT IN WATERLOO
+        	entryadded = false;
         }
+        String entryalerttitle;
+        String entrymessage;
+        if (entryadded){
+        	entryalerttitle = "Success";
+        	entrymessage = "The data has been successfully added";
+        	
+        }
+        else{
+        	entryalerttitle = "Error";
+        	entrymessage = "Unfortunately, the data could not be added. Please try again";
+        	
+        }
+        
+        //inform user whether data was added successfully
+        new AlertDialog.Builder(MainActivity.this)
+        .setTitle(entryalerttitle)
+        .setMessage(entrymessage)
+        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { 
+                // continue with delete
+            }
+         })
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .show();
         //----------- END OF DETECT ZONAL RATE FROM GPS COORDINATES---------//
         
         
