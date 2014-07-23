@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
             outstring.setText("NFC is enabled.");
         }
         
-        //test
+        //-------------PARSE WATERLOO COORDINATES INTO ARRAY-------------//
         String next[] = {};
         final List<String[]> list = new ArrayList<String[]>();
 
@@ -94,33 +94,65 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+      //-------------END OF PARSE WATERLOO COORDINATES INTO ARRAY-------------//
+        
       //----------- DETECT ZONAL RATE FROM GPS COORDINATES---------//
-        //double samplelat = 43.49860;
-        //double samplelong = -80.5700;
-        double samplelat = 43.611080;
-        double samplelong = -79.650621;
-        Boolean inWaterloo = getMyLocationAddress(samplelat,samplelong);
+        
+        //Sample street location: 295 Lester, Waterloo, ON
+        String testlocation = "GPRMC,180341.000,A,4328.5502,N,08032.1746,W,0.00,225.94,090714,,,A*7D<END>";
+        String[] locationArray =  testlocation.split(",");
+        
+        //extract latitude
+        String latdegrees = locationArray[3].substring(0,2);
+        String latminutes = locationArray[3].substring(2,9);
+        Double latitude1 = Double.parseDouble(latdegrees) + ((Double.parseDouble(latminutes))/60);
+        latitude1 = (double) Math.round(latitude1*100000) / 100000;
+        if (locationArray[4].equals("S")){
+        	latitude1 *= -1;
+        }
+        
+        //extract longitude
+        String longdegrees = locationArray[5].substring(0,3);
+        String longminutes = locationArray[5].substring(3,10);
+        Double longitude1 = Double.parseDouble(longdegrees) + ((Double.parseDouble(longminutes))/60);
+        longitude1 = (double) Math.round(longitude1*100000) / 100000;
+        if (locationArray[6].equals("W")){
+        	longitude1 *= -1;
+        }
+        Log.e("GPS",String.valueOf(latitude1));
+        Log.e("GPS",String.valueOf(longitude1));
+        
+        //Sample coordinates in Mississauga
+        //latitude1 = 43.611080;
+        //longitude1 = -79.650621;
+        
+        //check if location is in Waterloo
+        Boolean inWaterloo = getMyLocationAddress(latitude1,longitude1);
+        
+        //if location is in Waterloo, find zonal rate
         if (inWaterloo){
 	        int column=0;
 	        int row=0;
 	        
-	        int latitude;
-	        int longitude;
-	        for (longitude=1; longitude <17; longitude++){
-	        	if ( (samplelong > Double.parseDouble(list.get(0)[longitude])) && (samplelong < Double.parseDouble(list.get(0)[longitude+1]))){
-	        		column = longitude+1;
+	        int rownum;
+	        int columnnum;
+	        for (columnnum=1; columnnum <17; columnnum++){
+	        	if ( (longitude1 > Double.parseDouble(list.get(0)[columnnum])) && (longitude1 < Double.parseDouble(list.get(0)[columnnum+1]))){
+	        		column = columnnum+1;
 	        		break;
 	        	}
 	        }
-	        for (latitude=1; latitude <17; latitude++){
-	        	if ( (samplelat < Double.parseDouble(list.get(latitude)[0])) && (samplelat > Double.parseDouble(list.get(latitude+1)[0]))){
-	        		row = latitude+1;
+	        for (rownum=1; rownum <17; rownum++){
+	        	if ( (latitude1 < Double.parseDouble(list.get(rownum)[0])) && (latitude1 > Double.parseDouble(list.get(rownum+1)[0]))){
+	        		row = rownum+1;
 	        		break;
 	        	}
 	        }
-	        Log.e("CSVtag",list.get(row)[column]);
+	        Log.e("Zone",list.get(row)[column]);
 	        
     	}
+        
+        //else log error
         else{
         	Log.e("Address","Not in Waterloo");
         	//ADD ALERT TO WARN USER THAT THEY ARE NOT IN WATERLOO
@@ -151,10 +183,10 @@ public class MainActivity extends Activity {
                   }
                   String[] address =  strAddress.toString().split(",");
                   city = address[1].replaceAll("\\s+","");
-                  Log.e("Address",city);
+                  Log.e("Address","Your current city is: " + city);
               }
               else
-            	  Log.e("Address","address not found");
+            	  Log.e("Address","Address not found");
     
         } 
         catch (IOException e) {
@@ -162,7 +194,7 @@ public class MainActivity extends Activity {
                  e.printStackTrace();
                  Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
         }
-        if (city=="Waterloo"){
+        if (city.equals("Waterloo")){
         	return true;
         }
         else{
