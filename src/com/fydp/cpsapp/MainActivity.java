@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,6 +30,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
+import android.location.Address;
+import android.location.Geocoder;
 import android.nfc.NfcAdapter;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -91,35 +94,82 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        //----------- DETECT ZONAL RATE FROM GPS COORDINATES---------//
-        double samplelat = 43.49860;
-        double samplelong = -80.5700;
-        int column=0;
-        int row=0;
-        
-        int latitude;
-        int longitude;
-        for (longitude=1; longitude <17; longitude++){
-        	if ( (samplelong > Double.parseDouble(list.get(0)[longitude])) && (samplelong < Double.parseDouble(list.get(0)[longitude+1]))){
-        		column = longitude+1;
-        		break;
-        	}
-        }
-        for (latitude=1; latitude <17; latitude++){
-        	if ( (samplelat < Double.parseDouble(list.get(latitude)[0])) && (samplelat > Double.parseDouble(list.get(latitude+1)[0]))){
-        		row = latitude+1;
-        		break;
-        	}
-        	else{
-        	}
-        }
-        Log.e("CSVtag",list.get(row)[column]);
       //----------- DETECT ZONAL RATE FROM GPS COORDINATES---------//
+        //double samplelat = 43.49860;
+        //double samplelong = -80.5700;
+        double samplelat = 43.611080;
+        double samplelong = -79.650621;
+        Boolean inWaterloo = getMyLocationAddress(samplelat,samplelong);
+        if (inWaterloo){
+	        int column=0;
+	        int row=0;
+	        
+	        int latitude;
+	        int longitude;
+	        for (longitude=1; longitude <17; longitude++){
+	        	if ( (samplelong > Double.parseDouble(list.get(0)[longitude])) && (samplelong < Double.parseDouble(list.get(0)[longitude+1]))){
+	        		column = longitude+1;
+	        		break;
+	        	}
+	        }
+	        for (latitude=1; latitude <17; latitude++){
+	        	if ( (samplelat < Double.parseDouble(list.get(latitude)[0])) && (samplelat > Double.parseDouble(list.get(latitude+1)[0]))){
+	        		row = latitude+1;
+	        		break;
+	        	}
+	        }
+	        Log.e("CSVtag",list.get(row)[column]);
+	        
+    	}
+        else{
+        	Log.e("Address","Not in Waterloo");
+        	//ADD ALERT TO WARN USER THAT THEY ARE NOT IN WATERLOO
+        }
+        //----------- END OF DETECT ZONAL RATE FROM GPS COORDINATES---------//
         
         
         handleIntent(getIntent());
     }
+    
+    //----------------------REVERSE GEOCODING-------------------------//
+    public boolean getMyLocationAddress(double latitude, double longitude) {
+        
+        Geocoder geocoder= new Geocoder(this, Locale.ENGLISH);
+        String city = "";
+        try {
+               
+              //Place your latitude and longitude
+              List<Address> addresses = geocoder.getFromLocation(latitude,longitude, 1);
+              
+              if(addresses != null) {
+               
+                  Address fetchedAddress = addresses.get(0);
+                  StringBuilder strAddress = new StringBuilder();
+                
+                  for(int i=0; i<fetchedAddress.getMaxAddressLineIndex(); i++) {
+                        strAddress.append(fetchedAddress.getAddressLine(i)).append(", ");
+                  }
+                  String[] address =  strAddress.toString().split(",");
+                  city = address[1].replaceAll("\\s+","");
+                  Log.e("Address",city);
+              }
+              else
+            	  Log.e("Address","address not found");
+    
+        } 
+        catch (IOException e) {
+                 // TODO Auto-generated catch block
+                 e.printStackTrace();
+                 Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+        }
+        if (city=="Waterloo"){
+        	return true;
+        }
+        else{
+        	return false;
+        }
+    }
+    //----------------------END OF REVERSE GEOCODING-----------------------//
      
     @Override
     protected void onResume() {
