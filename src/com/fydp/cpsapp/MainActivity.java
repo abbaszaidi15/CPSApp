@@ -271,7 +271,7 @@ public class MainActivity extends Activity {
     
     private void initDB(Context context){
     	String DB_FULL_PATH = "";
-    	CPSDatabase cpsDB = new CPSDatabase(context);
+    	CPSDatabaseHelper cpsDB = new CPSDatabaseHelper(context);
     	
     }
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
