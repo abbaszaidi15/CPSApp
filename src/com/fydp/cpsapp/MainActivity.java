@@ -174,25 +174,13 @@ public class MainActivity extends Activity {
         else{
         	Log.e("Address","Not in Waterloo");
         	entryadded = false;
-<<<<<<< HEAD
         }
         String entryalerttitle;
         String entrymessage;
         if (entryadded){
         	entryalerttitle = "Success";
-        	entrymessage = "The data has been successfully added";
-        	
+        	entrymessage = "The data has been successfully added";        	
         }
-=======
-        }
-        String entryalerttitle;
-        String entrymessage;
-        if (entryadded){
-        	entryalerttitle = "Success";
-        	entrymessage = "The data has been successfully added";
-        	
-        }
->>>>>>> origin/master
         else{
         	entryalerttitle = "Error";
         	entrymessage = "Unfortunately, the data could not be added. Please try again";
