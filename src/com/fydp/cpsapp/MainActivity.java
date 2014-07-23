@@ -63,10 +63,10 @@ public class MainActivity extends Activity {
         CPSDatabaseHelper db = new CPSDatabaseHelper(this);
         
         //add data entries
-        db.addCPSData(new CPSData("CPS-000-001", "1X1-A56-$68", "START","","","","","",""));
-        db.addCPSData(new CPSData("CPS-000-001", "1X1-A56-$68", "STOP","","","","","",""));
-        db.addCPSData(new CPSData("CPS-000-002", "1T8-H38-$93", "START","","","","","",""));
-        db.addCPSData(new CPSData("CPS-000-002", "1T8-H38-$93", "STOP","","","","","",""));
+        db.addCPSData(new CPSData("CPS-000-001", "1X1-A56-$68", "START","","","","","","2014"));
+        db.addCPSData(new CPSData("CPS-000-001", "1X1-A56-$68", "STOP","","","","","","2014"));
+        db.addCPSData(new CPSData("CPS-000-002", "1T8-H38-$93", "START","","","","","","2015"));
+        db.addCPSData(new CPSData("CPS-000-002", "1T8-H38-$93", "STOP","","","","","","2015"));
         // get all cps data
        // List<CPSData> cpsDataList = db.getAllCPSData();
  

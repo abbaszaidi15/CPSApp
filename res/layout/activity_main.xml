@@ -4,100 +4,110 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:background="#ffffff"
     tools:context="com.fydp.cpsapp.MainActivity" >
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-	
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-    		android:layout_height="wrap_content"
-    		android:layout_alignParentLeft="true"
-    		android:layout_alignParentTop="true"
-			android:onClick="viewParkingHistory"
-            android:text="View Parking History" />
-        
-        <ImageView
-        android:id="@+id/imageView1"
+    <GridLayout
+        android:id="@+id/GridLayout1"
         android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_toRightOf="@+id/button1"
-    	android:layout_alignBottom="@+id/button1"
-    	android:layout_alignParentTop="true"
-        android:src="@drawable/parkinglogo" />
-	       
-	</RelativeLayout>
+        android:layout_height="fill_parent"
+        android:alignmentMode="alignBounds"
+        android:columnCount="2" >
 
-	<RelativeLayout
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" >
-	</RelativeLayout>
-	
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-	
-        <Button
-            android:id="@+id/button2"
+        <ImageView
+            android:layout_row="0"
+            android:layout_columnSpan="2" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="280dp"
+            android:layout_height="150dp"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_horizontal"
+            android:layout_row="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/logo" />
+
+        <EditText
+            android:id="@+id/editText1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="Pay Your Bill" />
-        
-        <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_toRightOf="@+id/button2"
-    	android:layout_alignBottom="@+id/button2"
-    	android:layout_alignParentTop="true"
-        android:src="@drawable/googlewallet" />
-	       
-	</RelativeLayout>
-	       
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+            android:layout_column="0"
+            android:layout_gravity="right|bottom"
+            android:layout_row="7"
+            android:ems="10" >
 
-	</RelativeLayout>
-	
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-	
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="180dp"
+            android:layout_height="70dp"
+            android:layout_column="0"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_row="3"
+            android:background="@drawable/mybutton"
+            android:gravity="center"
+            android:onClick="viewParkingHistory"
+            android:layout_marginLeft="5dp"
+            android:text="View Parking History" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_row="6"
+            android:src="@drawable/googlewallet" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="88dp"
+            android:layout_height="74dp"
+            android:layout_column="1"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_row="3"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/parkinglogo" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="180dp"
+            android:layout_height="70dp"
+            android:layout_column="0"
+            android:layout_gravity="center"
+            android:layout_row="6"
+            android:background="@drawable/mybutton"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:text="Pay Your Bill" />
+
         <Button
             android:id="@+id/button3"
-            android:layout_width="wrap_content"
-    		android:layout_height="wrap_content"
-    		android:layout_alignParentLeft="true"
-    		android:layout_alignParentTop="true"
-            android:text="Settings" /> 
-        
-        <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:layout_toRightOf="@+id/button3"
-    	android:layout_alignBottom="@+id/button3"
-    	android:layout_alignParentTop="true"
-        android:src="@drawable/gear2" />
-	       
-	</RelativeLayout>
+            android:layout_width="180dp"
+            android:layout_height="70dp"
+            android:layout_column="0"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_row="7"
+            android:background="@drawable/mybutton"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:text="Settings" />
 
-	<RelativeLayout
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" >
-	</RelativeLayout>
-	
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignParentTop="true"
-        android:ems="10" >
-    </EditText>
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_column="1"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_row="7"
+            android:adjustViewBounds="true"
+            android:src="@drawable/gear2" />
+
+    </GridLayout>
+  
 </LinearLayout>
