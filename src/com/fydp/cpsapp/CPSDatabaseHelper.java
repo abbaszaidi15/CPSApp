@@ -21,7 +21,7 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 	//Database Name
 	private static final String DATABASE_NAME = "CPSDB";
 	//Database version
-	private static int DATABASE_VERSION = 1;
+	public static int DATABASE_VERSION = 1;
 
 	//Parking System Data table name
 	private static final String TABLE_PSD = "PSD";
@@ -49,9 +49,17 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 	
 	@Override
 	public void onCreate(SQLiteDatabase db){
+/*		String sql = "Drop TABLE IF EXISTS PSD";// + DATABASE_NAME+"."+TABLE_PSD;
+		
+		try{
+		db.execSQL(sql);
+		} catch (SQLiteException e) {
+			System.out.println(e.getMessage());
+		}*/
+		
 		//SQL statement to create Parking System Data table
 		String createPSDTable = "CREATE TABLE PSD (id INTEGER PRIMARY KEY AUTOINCREMENT," + 
-								"cps_user_id TEXT, device_id TEXT, tap_type TEXT, latitude TEXT" + 
+								"cps_user_id TEXT, device_id TEXT, tap_type TEXT, latitude TEXT," + 
 								"longitude TEXT, location TEXT, zonal_reg TEXT, cost TEXT," +  
 								"timeStamp TEXT)" ;
 		try{
@@ -63,7 +71,7 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-		String sql = "Drop TABLE IF EXISTS PSD";
+		String sql = "Drop TABLE IF EXISTS PSD";// + DATABASE_NAME+"."+TABLE_PSD;
 		
 		try{
 			db.execSQL(sql);
@@ -71,6 +79,11 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 		} catch (SQLiteException e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	@Override
+	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+	    onUpgrade(db, oldVersion, newVersion);
 	}
 	
 	public void addCPSData(CPSData data){
@@ -134,7 +147,7 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 	    data.setTimeStamp(cursor.getString(8));
 	   
 	    //log 
-	    Log.d("getBook("+id+")", data.toString());
+	    Log.d("getData("+id+")", data.toString());
 	 
 	    // 5. return book
 	    return data;
@@ -166,14 +179,14 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 		       	   dataEntry.setCost(cursor.getString(7));
 		       	   dataEntry.setTimeStamp(cursor.getString(8));
 	 
-	               // Add book to books
+	               // Add data entry to allData
 	               allData.add(dataEntry);
 	           } while (cursor.moveToNext());
 	       }
 	 
-	       Log.d("getAllBooks()", allData.toString());
+	       Log.d("getAllCPSData()", allData.toString());
 	 
-	       // return books
+	       // return entire list
 	       return allData;
 	   }
 	

@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.app.Dialog;
@@ -59,9 +60,22 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
  
         //-------Start of DB implementation
-        //ParkingDbHelper Db = new ParkingDbHelper(this);
-        Context context = getApplicationContext();
-        initDB(context);
+        CPSDatabaseHelper db = new CPSDatabaseHelper(this);
+        
+        //add data entries
+        db.addCPSData(new CPSData("CPS-000-001", "1X1-A56-$68", "START","","","","","",""));
+        db.addCPSData(new CPSData("CPS-000-001", "1X1-A56-$68", "STOP","","","","","",""));
+        db.addCPSData(new CPSData("CPS-000-002", "1T8-H38-$93", "START","","","","","",""));
+        db.addCPSData(new CPSData("CPS-000-002", "1T8-H38-$93", "STOP","","","","","",""));
+        // get all cps data
+       // List<CPSData> cpsDataList = db.getAllCPSData();
+ 
+        // delete one book
+        //db.deleteBook(list.get(0));
+ 
+        // get all data
+        //db.getAllCPSData();
+        
         //-------End of DB implementation
         
         outstring = (EditText) findViewById(R.id.editText1);
@@ -300,11 +314,10 @@ public class MainActivity extends Activity {
     public static void stopForegroundDispatch(final Activity activity, NfcAdapter adapter) {
         adapter.disableForegroundDispatch(activity);
     }
-    
-    private void initDB(Context context){
-    	String DB_FULL_PATH = "";
-    	CPSDatabaseHelper cpsDB = new CPSDatabaseHelper(context);
-    	
+ 
+    public void viewParkingHistory(View view){
+    	Intent intent = new Intent(MainActivity.this, ParkingHistory.class);
+    	startActivity(intent);
     }
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
     	 

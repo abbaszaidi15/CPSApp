@@ -31,12 +31,15 @@ public class CPSData {
 		this.timeStamp = timeStamp;
 	}
 	
+	String eol = System.getProperty("line.separator"); 
+	
 	@Override
 	public String toString(){
-		return "Data [id=" + id + ", cps_user_id=" + userID + ", device_id=" + deviceID + 
-				", tap_type=" + tapType + ", latitude=" + latitude + ", longitude=" + 
-				longitude + ", location=" + location + ", zonal_reg=" + zonalReg + 
-				", cost=" + cost + ", timeStamp=" + timeStamp  + "]";
+		return "ID:" + id + eol + " CPS USER ID:" + userID + eol + 
+				"Device ID:" + deviceID + eol + "Tap Type:" + tapType + eol + 
+				"Latitude:" + latitude + eol + "Longitude:" + longitude + eol +
+				"Location:" + location + eol + "Zonal Region:" + zonalReg + eol + 
+				"Cost:" + cost + eol + "Time Stamp:" + timeStamp;
 	}
 
 	/**

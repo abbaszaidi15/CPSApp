@@ -36,6 +36,11 @@
     				<data android:mimeType="text/plain" />
 			</intent-filter>
         </activity>
+        <activity
+            android:name=".ParkingHistory"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>
