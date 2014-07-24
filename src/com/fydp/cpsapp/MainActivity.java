@@ -113,7 +113,7 @@ public class MainActivity extends Activity {
       //----------- DETECT ZONAL RATE FROM GPS COORDINATES---------//
         
         //Sample street location: 295 Lester, Waterloo, ON
-        String testlocation = "GPRMC,180341.000,A,4328.5502,N,08032.1746,W,0.00,225.94,090714,,,A*7D<END>";
+        String testlocation = "$GPRMC,180341.000,A,4328.5502,N,08032.1746,W,0.00,225.94,090714,,,A*7D<END>";
         String[] locationArray =  testlocation.split(",");
         
         //extract latitude
@@ -121,6 +121,7 @@ public class MainActivity extends Activity {
         String latminutes = locationArray[3].substring(2,9);
         Double latitude1 = Double.parseDouble(latdegrees) + ((Double.parseDouble(latminutes))/60);
         latitude1 = (double) Math.round(latitude1*100000) / 100000;
+       
         if (locationArray[4].equals("S")){
         	latitude1 *= -1;
         }
@@ -130,6 +131,7 @@ public class MainActivity extends Activity {
         String longminutes = locationArray[5].substring(3,10);
         Double longitude1 = Double.parseDouble(longdegrees) + ((Double.parseDouble(longminutes))/60);
         longitude1 = (double) Math.round(longitude1*100000) / 100000;
+        
         if (locationArray[6].equals("W")){
         	longitude1 *= -1;
         }
@@ -137,8 +139,8 @@ public class MainActivity extends Activity {
         Log.e("GPS",String.valueOf(longitude1));
         
         //Sample coordinates in Mississauga
-        latitude1 = 43.611080;
-        longitude1 = -79.650621;
+        //latitude1 = 43.611080;
+        //longitude1 = -79.650621;
         
         //check if location is in Waterloo
         Boolean inWaterloo = getMyLocationAddress(latitude1,longitude1);
