@@ -88,7 +88,7 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 	
 	public void addCPSData(CPSData data){
 		//logging
-//		Log.d("addData", data.toString());
+		Log.d("addData", data.toString());
 		
 		//1. get reference to writable db
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -141,10 +141,10 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 	    data.setTapType(cursor.getString(3));
 	    data.setLatitude(cursor.getString(4));
 	    data.setLongitude(cursor.getString(5));
-	    data.setLocation(cursor.getString(5));
-	    data.setZonalReg(cursor.getString(6));
-	    data.setCost(cursor.getString(7));
-	    data.setTimeStamp(cursor.getString(8));
+	    data.setLocation(cursor.getString(6));
+	    data.setZonalReg(cursor.getString(7));
+	    data.setCost(cursor.getString(8));
+	    data.setTimeStamp(cursor.getString(9));
 	   
 	    //log 
 	    Log.d("getData("+id+")", data.toString());
@@ -174,10 +174,10 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 		       	   dataEntry.setTapType(cursor.getString(3));
 		       	   dataEntry.setLatitude(cursor.getString(4));
 		       	   dataEntry.setLongitude(cursor.getString(5));
-		       	   dataEntry.setLocation(cursor.getString(5));
-		       	   dataEntry.setZonalReg(cursor.getString(6));
-		       	   dataEntry.setCost(cursor.getString(7));
-		       	   dataEntry.setTimeStamp(cursor.getString(8));
+		       	   dataEntry.setLocation(cursor.getString(6));
+		       	   dataEntry.setZonalReg(cursor.getString(7));
+		       	   dataEntry.setCost(cursor.getString(8));
+		       	   dataEntry.setTimeStamp(cursor.getString(9));
 	 
 	               // Add data entry to allData
 	               allData.add(dataEntry);
@@ -211,10 +211,10 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 		       	   dataEntry.setTapType(cursor.getString(3));
 		       	   dataEntry.setLatitude(cursor.getString(4));
 		       	   dataEntry.setLongitude(cursor.getString(5));
-		       	   dataEntry.setLocation(cursor.getString(5));
-		       	   dataEntry.setZonalReg(cursor.getString(6));
-		       	   dataEntry.setCost(cursor.getString(7));
-		       	   dataEntry.setTimeStamp(cursor.getString(8));
+		       	   dataEntry.setLocation(cursor.getString(6));
+		       	   dataEntry.setZonalReg(cursor.getString(7));
+		       	   dataEntry.setCost(cursor.getString(8));
+		       	   dataEntry.setTimeStamp(cursor.getString(9));
 	               // Add data entry to allData
 	               allData.add(dataEntry);
 	           } while (cursor.moveToNext());
