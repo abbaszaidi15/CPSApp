@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import android.content.IntentFilter;
 import android.content.IntentFilter.MalformedMimeTypeException;
 import android.location.Address;
 import android.location.Geocoder;
+import android.nfc.FormatException;
 import android.nfc.NfcAdapter;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -40,6 +42,10 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.AsyncTask;
 import android.util.Log;
+
+
+
+
 //
 
 //Database Classes
@@ -53,11 +59,23 @@ public class MainActivity extends Activity {
  
     private EditText outstring;
     private NfcAdapter mNfcAdapter;
+    
+    Tag mytag;
+    
+    int mode;
+    int START = 1;
+    int STOP = 0;
+    
+    
+
  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+	
+        mode = STOP;
  
         //-------Start of DB implementation
         CPSDatabaseHelper db = new CPSDatabaseHelper(this);
@@ -177,6 +195,7 @@ public class MainActivity extends Activity {
         	Log.e("Address","Not in Waterloo");
         	entryadded = false;
         }
+       /*
         String entryalerttitle;
         String entrymessage;
         if (entryadded){
@@ -200,6 +219,8 @@ public class MainActivity extends Activity {
          })
         .setIcon(android.R.drawable.ic_dialog_alert)
         .show();
+        
+        */
         //----------- END OF DETECT ZONAL RATE FROM GPS COORDINATES---------//
         
         
@@ -276,6 +297,7 @@ public class MainActivity extends Activity {
          * 
          * In our case this method gets called, when the user attaches a Tag to the device.
          */
+    	mytag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         handleIntent(intent);
     }
      
@@ -404,21 +426,148 @@ public class MainActivity extends Activity {
          
         @Override
         protected void onPostExecute(String result) {
-            if (result != null) {     	
-            	new AlertDialog.Builder(MainActivity.this)
-                .setTitle("Parking Entry")
-                .setMessage("Parking transaction started: " + result)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) { 
-                        // continue with delete
-                    }
-                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-                //outstring.setText("Read content: " + result);
+            if (result != null) {
+            	
+            	//outstring.setText("Read content: " + result);
+            	//determine if user has the application
+            	if(result.equals("Please download the CPS App from www.CPSApp.com")){
+            
+            		//determine the tag UID
+            		CharSequence UID =  bin2hex(mytag.getId());
+            		
+            		//ensure the the UID matches
+            		if(UID.equals("08ABCDEF")){            		
+	            		
+		 
+		                //outstring.setText("Read content: " + result);
+		                String writeMessage;
+						try {
+							if(mytag==null){
+								//Toast.makeText(this, "error detected, no tag", Toast.LENGTH_LONG ).show();
+								writeMessage = "error detected, no tag";
+							}else{
+								if(mode == START){
+									write("stop parking",mytag);	
+								}
+								else if(mode == STOP){
+									write("start parking",mytag);
+								}
+							}
+								
+								writeMessage = "write successful";
+								//Toast.makeText(this, "writing successful", Toast.LENGTH_LONG ).show();
+							
+						} catch (IOException e) {
+							//Toast.makeText(this, "error writing", Toast.LENGTH_LONG ).show();
+							writeMessage = "error writing, try again";
+							e.printStackTrace();
+						} catch (FormatException e) {
+							//Toast.makeText(this, "error writing" , Toast.LENGTH_LONG ).show();
+							writeMessage = "error writing, try again";
+							e.printStackTrace();
+						}
+						
+						if(writeMessage.equals("write successful")){
+							if(mode == START) {
+								mode = STOP;
+								writeMessage = "Parking Transation Stopped";
+							}
+							else if(mode == STOP) {
+								mode = START;
+								writeMessage = "Parking Transation Started";
+							}
+			           	}
+
+			           	new AlertDialog.Builder(MainActivity.this)
+		                .setTitle("Parking Entry")
+		                .setMessage(writeMessage)
+		                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		                    public void onClick(DialogInterface dialog, int which) { 
+		                        // continue with delete
+		                    }
+		                 })
+		                .setIcon(android.R.drawable.ic_dialog_alert)
+		                .show();
+			           	
+			           	
+			           	
+            		}
+            		else{
+		            	new AlertDialog.Builder(MainActivity.this)
+		                .setTitle("Parking Entry")
+		                .setMessage("UID is incorrect")
+		                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		                    public void onClick(DialogInterface dialog, int which) { 
+		                        // continue with delete
+		                    }
+		                 })
+		                .setIcon(android.R.drawable.ic_dialog_alert)
+		                .show();
+            		
+            		}
+            	}
+
+            	
+
             }
             //send message
         }
+        
+    	private NdefRecord createRecord(String text) throws UnsupportedEncodingException {
+    		String lang       = "en";
+    		byte[] textBytes  = text.getBytes();
+    		byte[] langBytes  = lang.getBytes("US-ASCII");
+    		int    langLength = langBytes.length;
+    		int    textLength = textBytes.length;
+    		byte[] payload    = new byte[1 + langLength + textLength];
+
+    		// set status byte (see NDEF spec for actual bits)
+    		payload[0] = (byte) langLength;
+
+    		// copy langbytes and textbytes into payload
+    		System.arraycopy(langBytes, 0, payload, 1,              langLength);
+    		System.arraycopy(textBytes, 0, payload, 1 + langLength, textLength);
+
+    		NdefRecord recordNFC = new NdefRecord(NdefRecord.TNF_WELL_KNOWN,  NdefRecord.RTD_TEXT,  new byte[0], payload);
+
+    		return recordNFC;
+    	}
+        
+        private String bin2hex(byte [] inarray) {
+    	    int i, j, in;
+    	    String [] hex = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+    	    String out= "";
+    	 
+    	    for(j = 0 ; j < inarray.length ; ++j) 
+    	        {
+    	        in = (int) inarray[j] & 0xff;
+    	        i = (in >> 4) & 0x0f;
+    	        out += hex[i];
+    	        i = in & 0x0f;
+    	        out += hex[i];
+    	        }
+    	    return out;
+    	}
+        
+        private void write(String message , Tag tag) throws IOException, FormatException {
+            NdefRecord[] records = { createRecord(message) };
+            NdefMessage  ndefMessage = new NdefMessage(records);
+
+            Log.e("rajan", "writing tag 5");
+            // Get an instance of Ndef for the tag.
+            Ndef ndef = Ndef.get(tag);
+
+            // Enable I/O
+            ndef.connect();
+
+            // Write the message
+            ndef.writeNdefMessage(ndefMessage);
+
+            // Close the connection
+            ndef.close();
+            Log.e("rajan", "writing tag 6");
+        }
+
     }
 }
 
