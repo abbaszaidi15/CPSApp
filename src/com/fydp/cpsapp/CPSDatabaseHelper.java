@@ -153,7 +153,7 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 	    return data;
 	}
 	
-	/*public List<CPSData> getAllCPSData() {
+	public List<CPSData> getAllCPSData() {
 	       List<CPSData> allData = new LinkedList<CPSData>();
 	 
 	       // 1. build the query
@@ -188,19 +188,14 @@ public class CPSDatabaseHelper extends SQLiteOpenHelper{
 	 
 	       // return entire list
 	       return allData;
-	   }*/
+	   }
 	
-	public List<CPSData> getAllCPSData(String month,String year){
+	public List<CPSData> getAllCPSData(int year){
 		List<CPSData> allData = new LinkedList<CPSData>();
 		
-		   // 1. build the query
-	       String selectQuery = "SELECT * FROM " + TABLE_PSD + " where timestamp='" + year + "'";
+		 // 1. build the query
+	       String selectQuery = "SELECT  * FROM " + TABLE_PSD + " where timestamp='" + year + "'";
 	 
-	       //1.1 append where clause
-	       if ((month != "") && (year != "")){
-	    	   selectQuery = selectQuery + " where timeStamp='" + month + "/" + year + "'";
-	       }
-	       
 	       // 2. get reference to writable DB
 	       SQLiteDatabase db = this.getWritableDatabase();
 	       Cursor cursor = db.rawQuery(selectQuery, null);
